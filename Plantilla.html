@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="proveedor.js"></script>
+	<link rel="stylesheet" type="text/css" href="../styleGlobal.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<meta charset="UTF-8"/>
+	<title>Proveedores - Concesionario</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="sticky top_menu">
+				<div class="top">
+					<img src="../images/logo.png" alt="logo"/>
+				</div>
+				<ul>
+					<li class="left"><a class="nerf" href="#">Concesionario</a></li>
+					<li class="left"><a class="current" href="proveedores.php">Proveedores</a></li>
+					<li class="left"><a class="nerf" href="#">Administración</a></li>
+					<li class="right"><a href="../logout.php">Logout</a></li>
+					<li class="right user">Hi,
+					<?php
+			    		if(isset($_SESSION['username'])){
+			    			$user = $_SESSION['username'];
+			    			$connection = new Users_table();
+			    			$provID = $connection->get_id($user);
+			    			$connection->close_connection();
+			    			echo $user;
+			    		}
+		    		?>!</li>
+				</ul>
+			</div>
+
+		</nav>
+	</header>
+
+	<div class="top_margin row">
+		<div class="w3-sidebar w3-bar-block w3-light-grey w3-card wid" >
+		  <h5 class="w3-bar-item"><b>Menu</b></h5>
+		  <button class="w3-bar-item w3-button tablink w3-red" onclick="abrirPestania(event, 'Visualizar')">Consultar inventario</button>
+		  <button class="w3-bar-item w3-button tablink" onclick="abrirPestania(event, 'Actualizar')">Actualizar inventario</button>
+		  <button class="w3-bar-item w3-button tablink" onclick="abrirPestania(event, 'Administrar')">Administrar pedidos</button>
+		</div>
+
+		<div class="widMargin">
+		  <div id="Visualizar" class="w3-container menu">
+
+		    <h2>Lista de productos</h2>
+		    <p>Aquí se muestran los productos que tiene asociados</p>
+		    <table class="w3-table-all">
+		    	<thead>
+		    		<tr class="w3-red">
+		    			<th>Producto</th>
+		    			<th>Disponible</th>
+		    		</tr>
+		    	</thead>
+		    	<?php
+		    		$connection = new Product_table();
+		    		$products = $connection->select_products($provID);
+		    		foreach ($products as $product) {
+		    			echo '<tr>';
+		    			echo '<td>' . $product['name'] . '</td>';
+		    			if($product['available'] == 1){
+		    				$disponible = 'Si';
+		    			}else{
+		    				$disponible = 'No';
+		    			}
+						echo '<td>' . $disponible . '</td>';
+		    			echo '</tr>';
+		    		}
+		    		$connection->close_connection();
+		    	?>
+		    </table>
+		  </div>
+
+		  <div id="Actualizar" class="w3-container menu hid">
+		    <h2>Subir XML con articulos</h2>
+		    <p>Con esta sencilla herramienta podrá mantener sus productos actualizados en un click!</p>
+		    <span id="mensaje"></span>
+		    <form method="post" id="formulario_XML" enctype="multipart/form-data">
+				<input type="file" value="Selecciona fichero" name="productos" class="button" accept=".xml"/>
+				<input type="submit" value="Actualizar productos" class="button" id="submit"/>
+				<span id="mensaje"></span>
+			</form>
+
+		  </div>
+
+		  <div id="Administrar" class="w3-container menu hid">
+		    <h2>Administrador de pedidos</h2>
+		    <p>Interfaz para pedidos</p>
+		    <input type="button" name="Ocultar confirmados." value="Ocultar confirmados." class="toggler buttonP right" onclick="ocultarConfirmed(event)" />
+		    <table class="w3-table-all">
+		    	<thead>
+		    		<tr class="w3-red">
+		    			<th>ID Pedido</th>
+		    			<th>Producto</th>
+		    			<th>Concesionario</th>
+		    			<th>Confirmado</th>
+		    		</tr>
+		    	</thead>
+		    	<?php
+		    		if(isset($user)){
+			    		$connect = new OrderItem_table();
+			    		$orders = $connect->select_orderItem($provID);
+			    		foreach ($orders as $order) {
+			    			if($order['confirmed'] == 1){
+			    				echo '<tr class="conf">';
+			    			}else{
+			    				echo '<tr>';
+			    			}
+			    			echo '<td>' . $order['orderID'] . '</td>';
+							echo '<td>' . $order['productName'] . '</td>';
+							echo '<td>' . $order['units'] . '</td>';
+
+							if($order['confirmed'] == 1){
+								echo '<td>' . "Si" .'</td>';
+							}else{
+								echo '<td>' . "No" .'<img src="../images/confirmar.png" alt="confirmar" class="confirm center" id=" ' . $order['orderItemID'] . '" />' . '</td>';
+							}
+			    			echo '</tr>';
+			    		}
+			    	$connect->close_connection();
+			    	}else{
+			    		echo "No se ha iniciado sesión.";
+			    	}
+		    	?>
+
+		    </table>
+		  </div>
+
+		</div>
+	</div>
+
+
+
+
+	<footer class="footer">
+
+
+	</footer>
+
+</body>
+</html>
