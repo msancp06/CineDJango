@@ -11,7 +11,7 @@ def detalles(request):
 def reservas(request):
     return render(request, 'cine/reservas.html')
 
-def reservasPeliculas(request, id_visualizacion):
+def reservasPelicula(request, id_visualizacion):
     return render(request, 'cine/reservas')
 
 def resumen(request):

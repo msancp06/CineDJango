@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'CineDJango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cine', 
+        'NAME': 'cine',
         'USER': 'u_cine',
         'PASSWORD' : 'test'
     }
@@ -119,5 +119,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/github/CineDJango/cine/static/cine/',
+]
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'

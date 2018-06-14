@@ -9,30 +9,30 @@
 
     {% block scripts %}
       <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-      <script src="{% static "cine/js/cineScript.js"%}"></script>
-    	<link rel="stylesheet" type="text/css" href="{% static "cine/css/mainStyle.css"%}" />
+    	<link rel="stylesheet" href="{% static "cine/css/mainStyle.css" %}" />
     	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     	<link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
     	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <script src="{% static "cine/js/cineScript.js"%}"></script>
     {% endblock %}
 
   </head>
   <body>
     <!-- Cabecera de la pagina -->
+    <header>
+      <nav>
+    		<div class="sticky top_menu">
+    			<div class="top">
+    				<img src="{% static "cine/images/logo.png"%}" alt="logo"/>
+    			</div>
+    			<ul>
+    				<li class="left"><a class="" href="{% url 'cine:index'%}">Home</a></li>
+    				<li class="left"><a class="" href="{% url 'cine:reservas'%}">Reservas</a></li>
+    			</ul>
+    		</div>
 
-    <nav>
-			<div class="sticky top_menu">
-				<div class="top">
-					<img src="{% static "cine/images/LogoFDC.png"%}" alt="logo"/>
-				</div>
-				<ul>
-					<li class="left"><a class="" href="{% url 'cine:index'%}">Home</a></li>
-					<li class="left"><a class="" href="{% url 'cine:reservas'%}">Reservas</a></li>
-				</ul>
-			</div>
-
-		</nav>
-
+    	</nav>
+    </header>
     {% block contenido %}
     {% endblock %}
   </body>

@@ -59,3 +59,11 @@ header li a:hover {
 nav .current {
   background-color: #ffbf00;
 }
+
+/***************************** BODY ************************************/
+
+body{
+  background-color: #FFFFFF;
+  margin: 0 auto;
+  font-family: 'Alef';font-size: 15px;
+}
