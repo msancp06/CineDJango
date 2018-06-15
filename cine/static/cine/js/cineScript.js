@@ -17,8 +17,7 @@ $(document).ready(function(){
           $(".selectSesion").append('<option class="sesion" sala=" '+ data[i].sala +' " id="' + data[i].idVisualizacion + '"> Sesion: '+ data[i].sesion +'</option>');
         }
       }
-
-
+    });
   });
 
   $('select.selectSesion').change(function (){
@@ -26,8 +25,16 @@ $(document).ready(function(){
     $(".salaDePelicula").html("Sala: " + sala);
   });
 
+  $("cartel").click( function(e){
+    e.preventDefault();
+    $("#overlay").css('display', 'block');
+    return false;
   });
 });
+
+function quitarOverlay(){
+  $(this).css('display', 'none');
+}
 
 function verSesiones(visualizaciones) {
   var idPelicula;

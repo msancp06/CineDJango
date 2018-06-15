@@ -5,6 +5,7 @@
   <h1>Peliculas<h1>
     {% if peliculas%}
       <select onchange="" class="navPeliculas" name="Genero">
+        <option value="" disabled selected>Filtrar género</option>
         {% for genero in generos %}
         <option value="{{ genero }}">{{ genero }}</option>
         {% endfor %}
@@ -20,7 +21,9 @@
           </li>
         {% endfor %}
       </ul>
+      <div id="overlay" onclick="quitarOverlay()">
 
+      </div>
     {% endif %}
 
 
