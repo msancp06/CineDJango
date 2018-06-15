@@ -1,9 +1,21 @@
 from django.shortcuts import render
+from django.utils.timezone import datetime
+from .models import Visualizacion
+
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'cine/index.html')
+
+    # Se define la fecha de hoy y se filtran las peliculas
+    hoy = datetime.today()
+    peliculasQueMostrar = Visualizacion.objects.filter(hora__gte = hoy)
+    numeroDePeliculas = peliculasQueMostrar.count()
+    arrayPeliculas = []
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula in arrayPeliculas:
+            arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
+    return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas})
 
 def detalles(request):
     return render(request, 'cine/detalles.html')

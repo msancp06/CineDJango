@@ -67,3 +67,8 @@ body{
   margin: 0 auto;
   font-family: 'Alef';font-size: 15px;
 }
+
+img.cartel {
+  width: 150px;
+  height: auto;
+}

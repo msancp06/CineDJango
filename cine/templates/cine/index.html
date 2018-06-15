@@ -1,5 +1,19 @@
 {% extends "./base.html"%}
 
 {% block contenido %}
-  Pagina principal
+
+  <h1>Peliculas<h1>
+    {% if peliculas%}
+
+      <ul>
+        {% for pelicula in peliculas %}
+          <li>
+            {% include "./pelicula.html"%}
+          </li>
+        {% endfor %}
+      </ul>
+
+    {% endif %}
+
+
 {% endblock %}
