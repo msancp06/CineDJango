@@ -25,8 +25,9 @@ def index(request):
 
     return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros})
 
-def detalles(request):
-    return render(request, 'cine/detalles.html')
+def detalles(request, id_pelicula):
+    pelicula = Pelicula.objects.get(id = id_pelicula)
+    return render(request, 'cine/detalles.html', {'pelicula' : pelicula})
 
 def reservas(request):
 

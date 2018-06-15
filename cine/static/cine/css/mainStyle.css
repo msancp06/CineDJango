@@ -73,6 +73,11 @@ img.cartel {
   height: auto;
 }
 
+img.cartelGrande {
+  width: 250px;
+  height: auto;
+}
+
 #overlay {
   position: fixed;
   display: none;

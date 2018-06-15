@@ -1,5 +1,5 @@
 <article class="cine" genero="{{ pelicula.genero }}">
-  <a class="cartelEnlace" href="#">
+  <a class="cartelEnlace" href="{% url 'cine:detalles' id_pelicula=pelicula.id %} ">
     <img class="cartel" onclick="cargarOverlay()" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
     <h5>{{ pelicula.titulo }}</h5>
   </a>

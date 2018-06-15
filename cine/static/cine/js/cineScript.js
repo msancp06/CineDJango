@@ -25,13 +25,9 @@ $(document).ready(function(){
     $(".salaDePelicula").html("Sala: " + sala);
   });
 
-  $('select.navPeliculas').change( function(){
-    var genero = $('option:selected', this).attr('value');
-    $('article:not()').hide();
-  });
-
 });
 
+/*
 function quitarOverlay(){
   $("#overlay").css('display', 'none');
 }
@@ -39,6 +35,7 @@ function quitarOverlay(){
 function cargarOverlay(){
   $("#overlay").css('display', 'block');
 }
+*/
 
 function verSesiones(visualizaciones) {
   var idPelicula;

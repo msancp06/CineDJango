@@ -1,0 +1,12 @@
+{% extends "./base.html"%}
+
+{% block contenido %}
+
+<img class="cartelGrande" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
+<p>{{ pelicula.titulo }}</p>
+<p>{{ pelicula.director }}</p>
+<p>{{ pelicula.genero }}</p>
+<p>{{ pelicula.sinopsis }}</p>
+
+
+{% endblock %}
