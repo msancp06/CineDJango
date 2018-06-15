@@ -8,4 +8,5 @@ urlpatterns = [
     path('reservas', views.reservas, name='reservas'),
     path('reservas/<int:id_visualizacion>', views.reservasPelicula, name='reservas_pelicula'),
     path('resumen', views.resumen, name='resumen'),
+    path('getSesionesAjax/', views.getSesionesAjax, name='getSesionesAjax'),
 ]

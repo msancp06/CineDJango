@@ -1,0 +1,25 @@
+{% extends "./base.html"%}
+
+{% block contenido %}
+
+{% if peliculas%}
+  <!-- Select con las peliculas -->
+  <select onchange="" class="selectPelicula" name="peliculas">
+    <option value="" disabled selected>Seleccina pelicula</option>
+    {% for pelicula in peliculas %}
+    <option value="{{ pelicula.id }}">{{ pelicula.titulo }}</option>
+    {% endfor %}
+  </select>
+  <!-- Select con las sesiones cargadas dinamicamente -->
+  <select onchange="" class="selectSesion" name="sesion">
+    <option value="" disabled selected>Seleccina sesion</option>
+  </select>
+
+  <!-- Indicador con la sala de esa sesion -->
+  <div class="salaDePelicula">
+
+  </div>
+
+{% endif %}
+
+{% endblock %}
