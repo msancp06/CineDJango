@@ -89,5 +89,42 @@ img.cartelGrande {
   bottom: 0;
   background-color: rgba(229,229,229,0.5);
   z-index: 2;
+}
 
+/********************************* TABLERO *********************************/
+
+.celda {
+	float: left;
+	height: 0;
+	width: 1.5%;
+	padding-bottom: 1.5%;
+	border: 1px solid black;
+	margin: 0.2%;
+	background-color: #FFFFFF;
+	color: #000000;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 190%;
+}
+
+.celda:hover{
+	background-color: #DAF7A6;
+}
+
+.celdaPasillo {
+	float: left;
+	height: 0;
+	width: 1.5%;
+	padding-bottom: 1.5%;
+	border: none;
+	margin: 0.2%;
+	background-color: #FFFFFF;
+	color: #000000;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 190%;
+}
+
+.fila {
+	clear: left;
 }

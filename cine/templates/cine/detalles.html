@@ -2,11 +2,35 @@
 
 {% block contenido %}
 
-<img class="cartelGrande" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
-<p>{{ pelicula.titulo }}</p>
-<p>{{ pelicula.director }}</p>
-<p>{{ pelicula.genero }}</p>
-<p>{{ pelicula.sinopsis }}</p>
+<div class="">
+  <img class="cartelGrande" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
+  <p>{{ pelicula.titulo }}</p>
+  <p>{{ pelicula.director }}</p>
+  <p>{{ pelicula.genero }}</p>
+  <p>{{ pelicula.sinopsis }}</p>
+</div>
+<div class="">
+  <ul> Sesiones:
+    {% for sesion in sesiones%}
+    <li>{{sesion.hora}}</li>
+    {% endfor %}
+  </ul>
+
+</div>
+<div>
+  <ul class="comentarios"> Comentarios:
+    {% for comentario in comentarios%}
+    <li class="comentario">
+      <header class="tituloComentario">
+        <span>{{comentario.tituloComentario}}</span>
+      </header>
+      <div class="cuerpoComentario">
+        <p>{{comentario.cuerpoComentario}}</p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
 
 {% endblock %}

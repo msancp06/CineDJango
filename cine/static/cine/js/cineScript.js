@@ -1,11 +1,14 @@
 $(document).ready(function(){
   $('select.selectPelicula').change(function () {
 
+    //Si cambia la peli, ponemos a 0 la sesion
+    var select = $('select.selectSesion');
+    select.val($('option:first', select).val());
+
     var pelicula = $(this).find("option:selected");
     var opcionPelicula  = pelicula.val();
     var idPelicula = parseInt(opcionPelicula, 10);
 
-    //url en django?
     $.ajax({
       url: "getSesionesAjax",
       cache:'false',
@@ -21,11 +24,48 @@ $(document).ready(function(){
   });
 
   $('select.selectSesion').change(function (){
-    var sala = $('option:selected', this).attr('sala');
-    $(".salaDePelicula").html("Sala: " + sala);
+    var idSala = $('option:selected', this).attr('sala');
+    $(".salaDePelicula").html("Sala: " + idSala);
+
+    $.ajax({
+      url: "getSalasAjax",
+      cache:'false',
+      data: {'idSala' : idSala },
+      type:"GET",
+      success: function(data){
+        //alert("Filas: " + data[0].filas + " Asiento/Fila: " + data[0].asientosPorFila + " UltimaFila: " + data[0].asientosUltimaFila);
+        crearSala(parseInt(data[0].filas, 10), parseInt(data[0].asientosPorFila, 10), parseInt(data[0].asientosUltimaFila, 10));
+      }
+    });
+
+
   });
 
 });
+
+function crearSala(filas, asientosPorFila, asientosUltimafila){
+  $("div.sala").html("");
+  for(var i = 0; i<filas; i++){
+		for(var j = 0; j<asientosPorFila; j++){
+			if(j == 0){
+				$("div.sala").append($('<div class="celda fila"></div>'));
+			}else{
+				$("div.sala").append($('<div class="celda"></div>'));
+			}
+      if(j+1 == (asientosPorFila/2)){
+        $("div.sala").append($('<div class="celdaPasillo"></div>'));
+      }
+		}
+	}
+  for(var j = 0; j<asientosUltimafila; j++){
+    if(j == 0){
+      $("div.sala").append($('<div class="celda fila"></div>'));
+    }else{
+      $("div.sala").append($('<div class="celda"></div>'));
+    }
+  }
+
+}
 
 /*
 function quitarOverlay(){

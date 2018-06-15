@@ -26,8 +26,12 @@ def index(request):
     return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros})
 
 def detalles(request, id_pelicula):
+
     pelicula = Pelicula.objects.get(id = id_pelicula)
-    return render(request, 'cine/detalles.html', {'pelicula' : pelicula})
+    visualizacionesConPelicula = Visualizacion.objects.filter(pelicula = id_pelicula)
+    comentarios = Comentario.objects.filter(pelicula = pelicula).all()
+
+    return render(request, 'cine/detalles.html', {'pelicula' : pelicula, 'sesiones' : visualizacionesConPelicula, 'comentarios' : comentarios})
 
 def reservas(request):
 
@@ -60,6 +64,16 @@ def getSesionesAjax(request):
         sesiones_set.append({'sesion': sesion.hora.strftime("%m/%d %H:%M"), 'idVisualizacion' : sesion.id, 'sala' : sesion.sala.id})
 
     return HttpResponse(json.dumps(sesiones_set), content_type='application/json')
+
+def getSalasAjax(request):
+
+    idSala = request.GET.get('idSala', 1)
+    sala = Sala.objects.get(id = idSala)
+    sala_set = []
+
+    sala_set.append({'idSala' : sala.id , 'filas' : sala.filas, 'asientosPorFila' : sala.asientosPorFila, 'asientosUltimaFila' : sala.asientosUltimaFila})
+    print("salaFilas: ", sala.filas)
+    return HttpResponse(json.dumps(sala_set), content_type='application/json')
 
 def reservasPelicula(request, id_visualizacion):
     return render(request, 'cine/reservas')

@@ -7,7 +7,7 @@
       <select onchange="" class="navPeliculas" name="Genero">
         <option value="" disabled selected>Filtrar género</option>
         {% for genero in generos %}
-        <option value="{{ genero }}">{{ genero }}</option>
+          <option value="{{ genero }}">{{ genero }}</option>
         {% endfor %}
       </select>
       <form class="navPeliculas" action="index.html" method="post">
