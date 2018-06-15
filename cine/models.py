@@ -10,7 +10,7 @@ class Pelicula(models.Model):
     sinopsis = models.CharField(max_length=500)
     foto = models.ImageField()
 
-    def __unicode___(self):
+    def __str__(self):
         return u'%s' % (self.titulo)
 
 class Sala(models.Model):
@@ -19,12 +19,17 @@ class Sala(models.Model):
     asientosPorFila = models.IntegerField()
     asientosUltimaFila = models.IntegerField()
 
+    def __str__(self):
+        return u'%s' % (self.id)
+
 class Comentario(models.Model):
 
     tituloComentario = models.CharField(max_length=50)
     cuerpoComentario = models.CharField(max_length=250)
     pelicula = models.ForeignKey(Pelicula, on_delete = models.CASCADE)
 
+    def __str__(self):
+        return u'%s' % (self.tituloComentario)
 
 class Visualizacion(models.Model):
 
@@ -32,7 +37,7 @@ class Visualizacion(models.Model):
     sala = models.ForeignKey(Sala, on_delete = models.CASCADE)
     hora = models.DateTimeField()
 
-    def __unicode___(self):
+    def __str__(self):
         return u'%s' % (self.hora)
 
 class Entrada(models.Model):
@@ -40,3 +45,6 @@ class Entrada(models.Model):
     fila = models.IntegerField()
     asiento = models.IntegerField()
     visualizacion = models.ForeignKey(Visualizacion, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return u'%s' % (self.id)

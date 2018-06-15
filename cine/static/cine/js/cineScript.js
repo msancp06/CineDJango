@@ -25,15 +25,19 @@ $(document).ready(function(){
     $(".salaDePelicula").html("Sala: " + sala);
   });
 
-  $("cartel").click( function(e){
-    e.preventDefault();
-    $("#overlay").css('display', 'block');
-    return false;
+  $('select.navPeliculas').change( function(){
+    var genero = $('option:selected', this).attr('value');
+    $('article:not()').hide();
   });
+
 });
 
 function quitarOverlay(){
-  $(this).css('display', 'none');
+  $("#overlay").css('display', 'none');
+}
+
+function cargarOverlay(){
+  $("#overlay").css('display', 'block');
 }
 
 function verSesiones(visualizaciones) {

@@ -1,6 +1,6 @@
-<article class="cine">
+<article class="cine" genero="{{ pelicula.genero }}">
   <a class="cartelEnlace" href="#">
-    <img class="cartel" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
+    <img class="cartel" onclick="cargarOverlay()" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
     <h5>{{ pelicula.titulo }}</h5>
   </a>
 </article>
