@@ -4,7 +4,15 @@
 
   <h1>Peliculas<h1>
     {% if peliculas%}
-
+      <select onchange="" class="navPeliculas" name="Genero">
+        {% for genero in generos %}
+        <option value="{{ genero }}">{{ genero }}</option>
+        {% endfor %}
+      </select>
+      <form class="navPeliculas" action="index.html" method="post">
+        <input type="text" name="buscar" placeholder="Buscar pelicula...">
+        <button type="submit"> <i class="fa fa-search"></i> </button>
+      </form>
       <ul>
         {% for pelicula in peliculas %}
           <li>

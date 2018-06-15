@@ -12,10 +12,16 @@ def index(request):
     peliculasQueMostrar = Visualizacion.objects.filter(hora__gte = hoy)
     numeroDePeliculas = peliculasQueMostrar.count()
     arrayPeliculas = []
+    arrayGeneros = []
     for x in range(0, numeroDePeliculas):
         if not peliculasQueMostrar[x].pelicula in arrayPeliculas:
             arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
-    return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas})
+
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula.genero in arrayGeneros:
+            arrayGeneros.append(peliculasQueMostrar[x].pelicula.genero)
+
+    return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros})
 
 def detalles(request):
     return render(request, 'cine/detalles.html')
