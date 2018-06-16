@@ -11,4 +11,6 @@ urlpatterns = [
     path('resumen', views.resumen, name='resumen'),
     path('getSesionesAjax/', views.getSesionesAjax, name='getSesionesAjax'),
     path('getSalasAjax/', views.getSalasAjax, name='getSalasAjax'),
+    path('getEntradasAjax/', views.getEntradasAjax, name='getEntradasAjax'),
+    path('saveEntradasAjax/', views.saveEntradasAjax, name='saveEntradasAjax'),
 ]

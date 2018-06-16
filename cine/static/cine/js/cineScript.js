@@ -1,4 +1,7 @@
+var entradas = new Array(1);
+
 $(document).ready(function(){
+
   $('select.selectPelicula').change(function () {
 
     //Si cambia la peli, ponemos a 0 la sesion
@@ -42,41 +45,101 @@ $(document).ready(function(){
   $('select.navPeliculas').change( function() {
     var opcion = $(this).find("option:selected");
     var url = opcion.attr('url');
-    if(url){ 
+    if(url){
       window.location = url;
     }
     return false;
   });
-
 });
 
-function crearSala(filas, asientosPorFila, asientosUltimafila){
-  $("div.sala").html("");
-  for(var i = 0; i<filas; i++){
+
+
+function cargarSala(filas, asientosPorFila, asientosUltimafila, idVisualizacion){
+  //Buscamos las entradas correspondientes a
+  $.ajax({
+    url: "getEntradasAjax",
+    cache:'false',
+    data: {'idVisualizacion' : idVisualizacion },
+    type:"GET",
+    success: function(data){
+      expandirSala(filas, asientosPorFila, asientosUltimafila, data, idVisualizacion);
+    }
+  });
+}
+function expandirSala(filas, asientosPorFila, asientosUltimafila, entradas, idVisualizacion){
+
+  var claseVisualizacion = ".vis" + idVisualizacion + "Sala";
+
+  $(claseVisualizacion).html("");
+  for(var i = 0; i<filas-1; i++){
 		for(var j = 0; j<asientosPorFila; j++){
 			if(j == 0){
-				$("div.sala").append($('<div class="celda fila"></div>'));
+				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+'</div>'));
 			}else{
-				$("div.sala").append($('<div class="celda"></div>'));
+				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda">'+(j+1)+'</div>'));
 			}
       if(j+1 == (asientosPorFila/2)){
-        $("div.sala").append($('<div class="celdaPasillo"></div>'));
+        $(claseVisualizacion).append($('<div fila="'+(i+1)+'" class="celdaPasillo"></div>'));
       }
 		}
 	}
   for(var j = 0; j<asientosUltimafila; j++){
     if(j == 0){
-      $("div.sala").append($('<div class="celda fila"></div>'));
+      $(claseVisualizacion).append($('<div fila="'+filas+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+'</div>'));
     }else{
-      $("div.sala").append($('<div class="celda"></div>'));
+      $(claseVisualizacion).append($('<div fila="'+filas+'" asiento="'+(j+1)+'" class="celda">'+(j+1)+'</div>'));
     }
   }
+
+  for(var i = 0; i<entradas.length; i++){
+    $(claseVisualizacion + ' [fila = "' + entradas[i].fila + '"][asiento = "' + entradas[i].asiento + '"]').removeClass("celda").addClass("celdaOcupada");
+  }
+
+  $(".celda").on("click", function(){
+    $(this).toggleClass('celdaSeleccionada');
+
+    var sesionPeli = $(this).parent().attr('class').replace('vis','').replace('Sala','');
+    var filaPeli = $(this).attr('fila');
+    var asientoPeli = $(this).attr('asiento');
+
+    alert(sesionPeli);
+    var entrada = new Object();
+    entrada.sesion = sesionPeli;
+    entrada.fila = filaPeli;
+    entrada.asiento = asientoPeli;
+    entradas.push(entrada);
+    $.ajax({
+      url: "saveEntradasAjax",
+      cache:'false',
+      data: {'arrayEntradas[]' : entradas },
+      type:"GET",
+      success: function(data){
+
+      }
+    });
+
+  });
+}
+
+function reservar(){
+  var final = entradas.pop();
+
+
+  alert(final.sesion);
+  $.ajax({
+    url: "saveEntradasAjax",
+    cache:'false',
+    data: {'arrayEntradas' : entradas },
+    type:"GET",
+    success: function(data){
+
+    }
+  });
 }
 
 function filtar(){
   var opcion = $(this).find("option:selected");
   var url = opcion.attr('filtrar');
-  alert(url);
   if(url){
     window.location = url;
   }

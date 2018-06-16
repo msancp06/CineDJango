@@ -3,18 +3,19 @@
 {% block contenido %}
 
 {% if peliculas%}
-  <!-- Select con las peliculas -->
+  <!--
+  Select con las peliculas
   <select onchange="" class="selectPelicula" name="peliculas">
     <option value="" disabled selected>Seleccina pelicula</option>
     {% for pelicula in peliculas %}
     <option value="{{ pelicula.id }}">{{ pelicula.titulo }}</option>
     {% endfor %}
   </select>
-  <!-- Select con las sesiones cargadas dinamicamente -->
+  Select con las sesiones cargadas dinamicamente
   <select onchange="" class="selectSesion" name="sesion">
     <option value="" disabled selected>Seleccina sesion</option>
   </select>
-
+-->
   <!-- Indicador con la sala de esa sesion -->
   <div class="salaDePelicula">
 
@@ -22,6 +23,31 @@
 
   <div class="sala">
 
+  </div>
+  <button onclick="reservar()" name="reservar"><i class="fa fa-search">Reservar asientos</i></button>
+  <div class="visualizaciones">
+    {% for visualizacion in visualizaciones %}
+      <div class="visualizacion">
+        <header>
+          <div class="visPelicula">
+            {{ visualizacion.pelicula.titulo }}
+          </div>
+          <div class="visSala">
+            Sala : {{ visualizacion.sala.id }}
+          </div>
+          <div class="visHora">
+            Hora : {{ visualizacion.hora }}
+          </div>
+          <button onclick="cargarSala({{ visualizacion.sala.filas }},
+          {{ visualizacion.sala.asientosPorFila }},
+          {{ visualizacion.sala.asientosUltimaFila }},
+          {{ visualizacion.id }})"> <i class="fa fa-search">Abrir sala</i> </button>
+        </header>
+        <div class="vis{{ visualizacion.id }}Sala">
+          Supuesta sala de cine
+        </div>
+      </div>
+    {% endfor %}
   </div>
 
 {% endif %}

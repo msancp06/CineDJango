@@ -105,6 +105,7 @@ img.cartelGrande {
 	text-align: center;
 	vertical-align: middle;
 	line-height: 190%;
+  cursor: pointer;
 }
 
 .celda:hover{
@@ -120,6 +121,32 @@ img.cartelGrande {
 	margin: 0.2%;
 	background-color: #FFFFFF;
 	color: #000000;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 190%;
+}
+
+.celdaOcupada {
+  float: left;
+	height: 0;
+	width: 1.5%;
+	padding-bottom: 1.5%;
+	border: 1px solid black;
+	margin: 0.2%;
+	background-color: #00FFFF;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 190%;
+}
+
+.celdaSeleccionada {
+  float: left;
+	height: 0;
+	width: 1.5%;
+	padding-bottom: 1.5%;
+	border: 1px solid black;
+	margin: 0.2%;
+	background-color: #0000FF;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 190%;
