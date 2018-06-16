@@ -37,8 +37,15 @@ $(document).ready(function(){
         crearSala(parseInt(data[0].filas, 10), parseInt(data[0].asientosPorFila, 10), parseInt(data[0].asientosUltimaFila, 10));
       }
     });
+  });
 
-
+  $('select.navPeliculas').change( function() {
+    var opcion = $(this).find("option:selected");
+    var url = opcion.val();
+    if(url){
+      window.location = url;
+    }
+    return false;
   });
 
 });
@@ -64,18 +71,18 @@ function crearSala(filas, asientosPorFila, asientosUltimafila){
       $("div.sala").append($('<div class="celda"></div>'));
     }
   }
-
 }
 
-/*
-function quitarOverlay(){
-  $("#overlay").css('display', 'none');
+function filtar(){
+  var opcion = $(this).find("option:selected");
+  var url = opcion.attr('filtrar');
+  alert(url);
+  if(url){
+    window.location = url;
+  }
+  return false;
 }
 
-function cargarOverlay(){
-  $("#overlay").css('display', 'block');
-}
-*/
 
 function verSesiones(visualizaciones) {
   var idPelicula;

@@ -3,7 +3,8 @@ from django.utils.timezone import datetime
 from .models import *
 import json
 from django.http import HttpResponse
-
+from django.views.generic import TemplateView
+from cine.forms import CineForm
 
 # Create your views here.
 
@@ -25,13 +26,48 @@ def index(request):
 
     return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros})
 
+def indexGenero(request, genero):
+
+    # Se define la fecha de hoy y se filtran las peliculas
+    hoy = datetime.today()
+    peliculasQueMostrar = Visualizacion.objects.filter(hora__gte = hoy)
+    numeroDePeliculas = peliculasQueMostrar.count()
+    arrayPeliculas = []
+    arrayGeneros = []
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula in arrayPeliculas:
+            if peliculasQueMostrar[x].pelicula.genero == genero:
+                arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
+
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula.genero in arrayGeneros:
+            arrayGeneros.append(peliculasQueMostrar[x].pelicula.genero)
+
+    return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros})
+
+
 def detalles(request, id_pelicula):
 
     pelicula = Pelicula.objects.get(id = id_pelicula)
     visualizacionesConPelicula = Visualizacion.objects.filter(pelicula = id_pelicula)
     comentarios = Comentario.objects.filter(pelicula = pelicula).all()
 
-    return render(request, 'cine/detalles.html', {'pelicula' : pelicula, 'sesiones' : visualizacionesConPelicula, 'comentarios' : comentarios})
+    if request.method == 'POST':
+        form = CineForm(request.POST)
+        if form.is_valid():
+
+            titulo = form.cleaned_data['titulo']
+            comentario = form.cleaned_data['comentario']
+
+            nuevoComentario = Comentario(tituloComentario = titulo, cuerpoComentario = comentario, pelicula = pelicula)
+            nuevoComentario.save()
+
+            request.method = 'GET'
+            return detalles(request, id_pelicula)
+    else:
+        form = CineForm()
+
+    return render(request, 'cine/detalles.html', {'pelicula' : pelicula, 'sesiones' : visualizacionesConPelicula, 'comentarios' : comentarios, 'form' : form})
 
 def reservas(request):
 
@@ -74,6 +110,9 @@ def getSalasAjax(request):
     sala_set.append({'idSala' : sala.id , 'filas' : sala.filas, 'asientosPorFila' : sala.asientosPorFila, 'asientosUltimaFila' : sala.asientosUltimaFila})
     print("salaFilas: ", sala.filas)
     return HttpResponse(json.dumps(sala_set), content_type='application/json')
+
+
+
 
 def reservasPelicula(request, id_visualizacion):
     return render(request, 'cine/reservas')
