@@ -2,17 +2,22 @@
 
 {% block contenido %}
 
-  <h1>Peliculas<h1>
+  <h1>Peliculas
+    {% if generoDePeli %}
+      de {{ generoDePeli }}
+    {% endif %}
+  </h1>
     {% if peliculas%}
       <select onchange="" class="navPeliculas" name="Genero">
         <option value="" disabled selected>Filtrar género</option>
         {% for genero in generos %}
-          <option value="{{ genero }}">{{ genero }}</option>
+          <option url="{% url 'cine:index_genero' genero=genero %}" value="{{ genero }}">{{ genero }}</option>
         {% endfor %}
       </select>
-      <form class="navPeliculas" action="index.html" method="post">
+      <form class="navPeliculas" action="{% url 'cine:index' %}" method="post">
+        {% csrf_token %}
         <input type="text" name="buscar" placeholder="Buscar pelicula...">
-        <button type="submit"> <i class="fa fa-search"></i> </button>
+        <button type="submit"> <i class="fa fa-search">Buscar</i> </button>
       </form>
       <ul>
         {% for pelicula in peliculas %}

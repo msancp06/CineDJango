@@ -16,6 +16,9 @@ def index(request):
     numeroDePeliculas = peliculasQueMostrar.count()
     arrayPeliculas = []
     arrayGeneros = []
+    if request.method == 'POST':
+        if request.POST.get('buscar'):
+            return indexBusqueda(request, request.POST.get('buscar'));
     for x in range(0, numeroDePeliculas):
         if not peliculasQueMostrar[x].pelicula in arrayPeliculas:
             arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
@@ -39,6 +42,28 @@ def indexGenero(request, genero):
             if peliculasQueMostrar[x].pelicula.genero == genero:
                 arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
 
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula.genero in arrayGeneros:
+            arrayGeneros.append(peliculasQueMostrar[x].pelicula.genero)
+
+    return render(request, 'cine/index.html', {'peliculas' : arrayPeliculas, 'generos' : arrayGeneros, 'generoDePeli' : genero})
+
+
+def indexBusqueda(request, buscar):
+
+    # Se define la fecha de hoy y se filtran las peliculas
+    hoy = datetime.today()
+    peliculasQueMostrar = Visualizacion.objects.filter(hora__gte = hoy)
+    numeroDePeliculas = peliculasQueMostrar.count()
+    arrayPeliculas = []
+    arrayGeneros = []
+    for x in range(0, numeroDePeliculas):
+        if not peliculasQueMostrar[x].pelicula in arrayPeliculas:
+            print("buscar", buscar)
+            if buscar.lower() in peliculasQueMostrar[x].pelicula.titulo.lower():
+                arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
+            elif buscar.lower() in peliculasQueMostrar[x].pelicula.director.lower():
+                arrayPeliculas.append(peliculasQueMostrar[x].pelicula)
     for x in range(0, numeroDePeliculas):
         if not peliculasQueMostrar[x].pelicula.genero in arrayGeneros:
             arrayGeneros.append(peliculasQueMostrar[x].pelicula.genero)

@@ -41,8 +41,8 @@ $(document).ready(function(){
 
   $('select.navPeliculas').change( function() {
     var opcion = $(this).find("option:selected");
-    var url = opcion.val();
-    if(url){
+    var url = opcion.attr('url');
+    if(url){ 
       window.location = url;
     }
     return false;

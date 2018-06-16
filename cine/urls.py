@@ -3,8 +3,8 @@ from . import views
 
 app_name = 'cine'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('<str:genero>', views.indexGenero, name='index_genero'),
+    path('inicio', views.index, name='index'),
+    path('inicio/<str:genero>', views.indexGenero, name='index_genero'),
     path('detalles/<int:id_pelicula>', views.detalles, name='detalles'),
     path('reservas', views.reservas, name='reservas'),
     path('reservas/<int:id_visualizacion>', views.reservasPelicula, name='reservas_pelicula'),
