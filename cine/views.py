@@ -5,6 +5,7 @@ import json
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from cine.forms import CineForm
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -105,7 +106,6 @@ def detalles(request, id_pelicula):
 def reservas(request):
 
     # Se define la fecha de hoy y se filtran las peliculas
-
     hoy = datetime.today()
     visualizacionesQueMostrar = Visualizacion.objects.filter(hora__gte = hoy)
     numeroDePeliculas = visualizacionesQueMostrar.count()
@@ -123,12 +123,10 @@ def getSesionesAjax(request):
     sesiones_set = []
     todasLasSesiones = []
 
-    print("idPelicula ", idPelicula)
     visualizacionesConPelicula = Visualizacion.objects.filter(pelicula = idPelicula)
 
     numeroDeSesiones = visualizacionesConPelicula.count()
     for x in range(0, numeroDeSesiones):
-        print("horas: ", visualizacionesConPelicula[x].hora)
         todasLasSesiones.append(visualizacionesConPelicula[x])
 
     for sesion in todasLasSesiones:
@@ -144,7 +142,7 @@ def getSalasAjax(request):
     sala_set = []
 
     sala_set.append({'idSala' : sala.id , 'filas' : sala.filas, 'asientosPorFila' : sala.asientosPorFila, 'asientosUltimaFila' : sala.asientosUltimaFila})
-    print("salaFilas: ", sala.filas)
+
     return HttpResponse(json.dumps(sala_set), content_type='application/json')
 
 def getEntradasAjax(request):
@@ -159,17 +157,20 @@ def getEntradasAjax(request):
 
 def saveEntradasAjax(request):
 
-    entrada = request.GET.getlist('arrayEntradas[]')
-    entradas_set = []
-    print("leng: " ,len(entrada))
-    #for entrada in entradas:
-    print("sesion: " + entrada[0].sesion + " asiento : " + entrada.asiento)
-    visualizacion = Visualizacion.objects.filter(id = entrada.sesion).get()
-    nuevaEntrada = Entrada(fila = entrada.fila, asiento = entrada.asiento, visualizacion = visualizacion)
-    nuevaEntrada.save()
+    entradas = request.GET.getlist('arrayEntradas[]')
 
+    for entrada in entradas:
+        # Preparamos las variables para la entrada
+        repEntrada = entrada.split(".")
+        idSesion = repEntrada[0]
+        fila = repEntrada[1]
+        asiento = repEntrada[2]
 
-    return HttpResponse(json.dumps(entradas_set), content_type='application/json')
+        visualizacion = Visualizacion.objects.filter(id = idSesion).get()
+        nuevaEntrada = Entrada(fila = fila, asiento = asiento, visualizacion = visualizacion)
+        nuevaEntrada.save()
+
+    return redirect('../reservas')
 
 def reservasPelicula(request, id_visualizacion):
     return render(request, 'cine/reservas')

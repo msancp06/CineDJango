@@ -1,4 +1,4 @@
-var entradas = new Array(1);
+var entradasReservadas = new Array();
 
 $(document).ready(function(){
 
@@ -102,37 +102,27 @@ function expandirSala(filas, asientosPorFila, asientosUltimafila, entradas, idVi
     var filaPeli = $(this).attr('fila');
     var asientoPeli = $(this).attr('asiento');
 
-    alert(sesionPeli);
+    var entrada = sesionPeli + "." + filaPeli + "." + asientoPeli;
+    /*
     var entrada = new Object();
     entrada.sesion = sesionPeli;
     entrada.fila = filaPeli;
     entrada.asiento = asientoPeli;
-    entradas.push(entrada);
-    $.ajax({
-      url: "saveEntradasAjax",
-      cache:'false',
-      data: {'arrayEntradas[]' : entradas },
-      type:"GET",
-      success: function(data){
-
-      }
-    });
+    */
+    entradasReservadas.push(entrada);
 
   });
 }
 
 function reservar(){
-  var final = entradas.pop();
 
-
-  alert(final.sesion);
   $.ajax({
     url: "saveEntradasAjax",
     cache:'false',
-    data: {'arrayEntradas' : entradas },
+    data: {'arrayEntradas[]' : entradasReservadas },
     type:"GET",
     success: function(data){
-
+      setTimeout("location.reload(true);", 1500);
     }
   });
 }
