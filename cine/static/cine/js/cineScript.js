@@ -100,7 +100,8 @@ function expandirSala(filas, asientosPorFila, asientosUltimafila, entradas, idVi
     $(claseVisualizacion + ' [fila = "' + entradas[i].fila + '"][asiento = "' + entradas[i].asiento + '"]').removeClass("celda").addClass("celdaOcupada").children('input').prop('disabled', true);
   }
 
-  $(claseVisualizacion).toggle("slow");
+
+  //$(claseVisualizacion).toggle();
 
   $(":checkbox").on("click", function(){
     $(this).parent.toggleClass('celdaSeleccionada');
