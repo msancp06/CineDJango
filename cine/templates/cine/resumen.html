@@ -1,15 +1,21 @@
 {% extends "./base.html"%}
 
 {% block contenido %}
-  <h2>Resumen de tu reserva:</h2>
+<div class="cont">
+  <h2 class="tituloStyle">Gracias por tu reserva!</h2>
+  <h4 class="tituloStyle">Aqui tienes tus entradas:</h4>
   {% for entrada in entradas%}
-    <div class="entrada">
-      <img class="cartelPequenio" src="{{ entrada.visualizacion.pelicula.foto.url }}" alt="{{ entrada.visualizacion.pelicula.titulo }}">
-      <span>Sala : {{ entrada.visualizacion.sala.id }}</span>
-      <span>Fila : {{ entrada.fila }}</span>
-      <span>Asiento : {{ entrada.asiento }}</span>
+    <div class="clear entrada">
+      <div class="left">
+        <img class="cartelPequenio" src="{{ entrada.visualizacion.pelicula.foto.url }}" alt="{{ entrada.visualizacion.pelicula.titulo }}">
+      </div>
+      <div class="left descripcion">
+        <p><span class="tituloStyle">Sesion: </span>{{ entrada.visualizacion.hora }}</p>
+        <p><span class="tituloStyle">Sala : </span>{{ entrada.visualizacion.sala.id }}</p>
+        <p><span class="tituloStyle">Fila : </span>{{ entrada.fila }} <span class="tituloStyle"> Asiento : </span>{{ entrada.asiento }}</p>
+      </div>
     </div>
     <br/>
   {% endfor %}
-
+</div>
 {% endblock %}

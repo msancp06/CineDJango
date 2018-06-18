@@ -1,6 +1,7 @@
 <article class="cine" genero="{{ pelicula.genero }}">
   <a class="cartelEnlace" href="{% url 'cine:detalles' id_pelicula=pelicula.id %} ">
     <img class="cartel" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
-    <h5>{{ pelicula.titulo }}</h5>
+    <h4>{{ pelicula.titulo }}</h4>
+    <h6>{{ pelicula.director }}</h6>
   </a>
 </article>

@@ -174,11 +174,6 @@ def saveEntradasAjax(request):
     return redirect('../reservas')
 
 
-def reservasPelicula(request, id_visualizacion):
-    return render(request, 'cine/reservas')
-
-
-
 def resumen(request):
     if request.method == 'POST':
         entradasReservadas = []

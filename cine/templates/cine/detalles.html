@@ -1,41 +1,52 @@
 {% extends "./base.html"%}
 
 {% block contenido %}
+<div class="cont">
+  <div class="left">
+    <img class="cartelGrande" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
+  </div>
+  <div class="left descripcion">
+    <p><span class="tituloStyle">Titulo : </span>{{ pelicula.titulo }}</p>
+    <p><span class="tituloStyle">Director : </span>{{ pelicula.director }}</p>
+    <p><span class="tituloStyle">Genero : </span>{{ pelicula.genero }}</p>
+    <p><span class="tituloStyle">Sinopsis: </span></p>
+    <p>{{ pelicula.sinopsis }}</p>
+  </div>
+  <div class="left">
+    <h5 class="tituloStyle">Proximas sesiones:</h5>
+    <ul class="comentarios">
+      {% for sesion in sesiones%}
+      <li class="comentario">{{sesion.hora}}</li>
+      {% endfor %}
+    </ul>
 
-<div class="">
-  <img class="cartelGrande" src="{{ pelicula.foto.url }}" alt="{{ pelicula.titulo }}">
-  <p>{{ pelicula.titulo }}</p>
-  <p>{{ pelicula.director }}</p>
-  <p>{{ pelicula.genero }}</p>
-  <p>{{ pelicula.sinopsis }}</p>
-</div>
-<div class="">
-  <ul> Sesiones:
-    {% for sesion in sesiones%}
-    <li>{{sesion.hora}}</li>
-    {% endfor %}
-  </ul>
+  </div>
+  <div class="clear cont filtro">
+    <h3 class="margenTop tituloStyle">Comentarios:</h3>
+    <ul class="comentarios">
+      {% for comentario in comentarios%}
+      <li class="comentario">
+        <header class="tituloComentario">
+          <span class="bold">{{comentario.tituloComentario}}</span>
+        </header>
+        <div class="cuerpoComentario margen">
+          <p>{{comentario.cuerpoComentario}}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="margenTop">
+      <h4 class="tituloStyle">¡Añade tu comentario!</h3>
+      <form class="nuevoComentario" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Comentar">
+      </form>
+    </div>
 
+  </div>
 </div>
-<div>
-  <ul class="comentarios"> Comentarios:
-    {% for comentario in comentarios%}
-    <li class="comentario">
-      <header class="tituloComentario">
-        <span>{{comentario.tituloComentario}}</span>
-      </header>
-      <div class="cuerpoComentario">
-        <p>{{comentario.cuerpoComentario}}</p>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  <form class="nuevoComentario" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Comentar">
-  </form>
-</div>
+
 
 
 {% endblock %}

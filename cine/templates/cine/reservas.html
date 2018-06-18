@@ -17,41 +17,28 @@
   </select>
 -->
   <!-- Indicador con la sala de esa sesion -->
-  <div class="salaDePelicula">
+  <div class="reservas">
 
-  </div>
 
-  <div class="sala">
-
-  </div>
   <form class="navPeliculas" action="resumen" method="post">
     {% csrf_token %}
-    <button type="submit" name="reservar"><i class="fa fa-search">Reservar asientos</i></button>
+    <button type="submit" class="reservar" name="reservar">Reservar asientos</button>
     <div class="visualizaciones">
       {% for visualizacion in visualizaciones %}
         <div class="visualizacion">
-          <header>
-            <div class="visPelicula">
-              {{ visualizacion.pelicula.titulo }}
-            </div>
-            <div class="visSala">
-              Sala : {{ visualizacion.sala.id }}
-            </div>
-            <div class="visHora">
-              Hora : {{ visualizacion.hora }}
-            </div>
-            <button class="noRef" onclick="cargarSala({{ visualizacion.sala.filas }},
-            {{ visualizacion.sala.asientosPorFila }},
-            {{ visualizacion.sala.asientosUltimaFila }},
-            {{ visualizacion.id }})"> <i class="fa fa-search">Abrir sala</i> </button>
-          </header>
-          <div class="vis{{ visualizacion.id }}Sala">
-            Supuesta sala de cine
+
+          <button class="noRef colapsar" onclick="cargarSala({{ visualizacion.sala.filas }},
+          {{ visualizacion.sala.asientosPorFila }},
+          {{ visualizacion.sala.asientosUltimaFila }},
+          {{ visualizacion.id }})"> Película: {{ visualizacion.pelicula.titulo }} || Sala: {{ visualizacion.sala.id }} || Hora : {{ visualizacion.hora }}</button>
+
+          <div class="vis{{ visualizacion.id }}Sala contenidoSala">
           </div>
         </div>
       {% endfor %}
     </div>
   </form>
+</div>
 
 {% endif %}
 

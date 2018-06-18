@@ -56,6 +56,8 @@ $(document).ready(function(){
 
 
 
+
+
 function cargarSala(filas, asientosPorFila, asientosUltimafila, idVisualizacion){
 
   //Buscamos las entradas correspondientes a
@@ -77,9 +79,9 @@ function expandirSala(filas, asientosPorFila, asientosUltimafila, entradas, idVi
   for(var i = 0; i<filas-1; i++){
 		for(var j = 0; j<asientosPorFila; j++){
 			if(j == 0){
-				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+ '<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '">' +'</div>'));
+				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '"/>' +'</div>'));
 			}else{
-				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '">' +'</div>'));
+				$(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda ">'+(j+1)+ '<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '"/>' +'</div>'));
 			}
       if(j+1 == (asientosPorFila/2)){
         $(claseVisualizacion).append($('<div fila="'+(i+1)+'" class="celdaPasillo"></div>'));
@@ -88,17 +90,17 @@ function expandirSala(filas, asientosPorFila, asientosUltimafila, entradas, idVi
 	}
   for(var j = 0; j<asientosUltimafila; j++){
     if(j == 0){
-      $(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '">' +'</div>'));
+      $(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda fila">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '"/>' +'</div>'));
     }else{
-      $(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '">' +'</div>'));
+      $(claseVisualizacion).append($('<div fila="'+(i+1)+'" asiento="'+(j+1)+'" class="celda">'+(j+1)+'<input type="checkbox" name="checks[]" value="' + idVisualizacion + ',' + (i+1) + ',' + (j+1) + '"/>' +'</div>'));
     }
   }
 
   for(var i = 0; i<entradas.length; i++){
-    $(claseVisualizacion + ' [fila = "' + entradas[i].fila + '"][asiento = "' + entradas[i].asiento + '"]').removeClass("celda").addClass("celdaOcupada").children('input').remove();
+    $(claseVisualizacion + ' [fila = "' + entradas[i].fila + '"][asiento = "' + entradas[i].asiento + '"]').removeClass("celda").addClass("celdaOcupada").children('input').prop('disabled', true);
   }
 
-  $(claseVisualizacion).append($('</form>'));
+  $(claseVisualizacion).toggle("slow");
 
   $(":checkbox").on("click", function(){
     $(this).parent.toggleClass('celdaSeleccionada');

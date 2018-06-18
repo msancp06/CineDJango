@@ -1,35 +1,43 @@
 {% extends "./base.html"%}
 
 {% block contenido %}
+  <div class="cont">
+    <h1>Películas
+      {% if generoDePeli %}
+        de {{ generoDePeli }}
+      {% endif %}
+    </h1>
+      {% if peliculas%}
+        <div class="filtro">
+          <div class="opciones">
+            <select class="navPeliculas" name="Genero">
+              <option value="" disabled selected>Filtrar género</option>
+              {% for genero in generos %}
+                <option url="{% url 'cine:index_genero' genero=genero %}" value="{{ genero }}">{{ genero }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="opciones">
+            <form class="navPeliculas" action="{% url 'cine:index' %}" method="post">
+              {% csrf_token %}
+              <input type="text" name="buscar" placeholder="Buscar pelicula...">
+              <button type="submit"> <i class="fa fa-search">Buscar</i> </button>
+            </form>
+          </div>
 
-  <h1>Peliculas
-    {% if generoDePeli %}
-      de {{ generoDePeli }}
-    {% endif %}
-  </h1>
-    {% if peliculas%}
-      <select onchange="" class="navPeliculas" name="Genero">
-        <option value="" disabled selected>Filtrar género</option>
-        {% for genero in generos %}
-          <option url="{% url 'cine:index_genero' genero=genero %}" value="{{ genero }}">{{ genero }}</option>
-        {% endfor %}
-      </select>
-      <form class="navPeliculas" action="{% url 'cine:index' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="buscar" placeholder="Buscar pelicula...">
-        <button type="submit"> <i class="fa fa-search">Buscar</i> </button>
-      </form>
-      <ul>
+        </div>
+
+
         {% for pelicula in peliculas %}
-          <li>
-            {% include "./pelicula.html"%}
-          </li>
+        <div class="peliculaInicio">
+          {% include "./pelicula.html"%}
+        </div>
         {% endfor %}
-      </ul>
-      <div id="overlay" onclick="quitarOverlay()">
 
-      </div>
-    {% endif %}
+      {% else %}
+        <p>En este momento no hay peliculas con sesiones o con ese criterio de busqueda.</p>
+      {% endif %}
+  </div>
 
 
 {% endblock %}
