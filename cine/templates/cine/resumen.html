@@ -1,0 +1,15 @@
+{% extends "./base.html"%}
+
+{% block contenido %}
+  <h2>Resumen de tu reserva:</h2>
+  {% for entrada in entradas%}
+    <div class="entrada">
+      <img class="cartelPequenio" src="{{ entrada.visualizacion.pelicula.foto.url }}" alt="{{ entrada.visualizacion.pelicula.titulo }}">
+      <span>Sala : {{ entrada.visualizacion.sala.id }}</span>
+      <span>Fila : {{ entrada.fila }}</span>
+      <span>Asiento : {{ entrada.asiento }}</span>
+    </div>
+    <br/>
+  {% endfor %}
+
+{% endblock %}

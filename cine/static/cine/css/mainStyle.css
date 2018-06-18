@@ -78,6 +78,11 @@ img.cartelGrande {
   height: auto;
 }
 
+img.cartelPequenio{
+  width: 100px;
+  height: auto;
+}
+
 #overlay {
   position: fixed;
   display: none;

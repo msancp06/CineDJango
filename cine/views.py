@@ -81,8 +81,9 @@ def indexBusqueda(request, buscar):
 
 def detalles(request, id_pelicula):
 
+    hoy = datetime.today()
     pelicula = Pelicula.objects.get(id = id_pelicula)
-    visualizacionesConPelicula = Visualizacion.objects.filter(pelicula = id_pelicula)
+    visualizacionesConPelicula = Visualizacion.objects.filter(pelicula = id_pelicula).filter(hora__gte = hoy)
     comentarios = Comentario.objects.filter(pelicula = pelicula).all()
 
     if request.method == 'POST':
@@ -155,8 +156,8 @@ def getEntradasAjax(request):
 
     return HttpResponse(json.dumps(entradas), content_type='application/json')
 
-def saveEntradasAjax(request):
 
+def saveEntradasAjax(request):
     entradas = request.GET.getlist('arrayEntradas[]')
 
     for entrada in entradas:
@@ -172,13 +173,28 @@ def saveEntradasAjax(request):
 
     return redirect('../reservas')
 
+
 def reservasPelicula(request, id_visualizacion):
     return render(request, 'cine/reservas')
 
 
 
-
-
-
 def resumen(request):
-    return render(request, 'cine/resumen.html')
+    if request.method == 'POST':
+        entradasReservadas = []
+        checkBoxes = request.POST.getlist('checks[]')
+
+        for entrada in checkBoxes:
+            print('entrada:' ,entrada)
+            # Preparamos las variables para la entrada
+            repEntrada = entrada.split(",")
+            idSesion = repEntrada[0]
+            fila = repEntrada[1]
+            asiento = repEntrada[2]
+
+            visualizacion = Visualizacion.objects.filter(id = idSesion).get()
+            nuevaEntrada = Entrada(fila = fila, asiento = asiento, visualizacion = visualizacion)
+            nuevaEntrada.save()
+            entradasReservadas.append(nuevaEntrada)
+
+    return render(request, 'cine/resumen.html', {'entradas' : entradasReservadas})
